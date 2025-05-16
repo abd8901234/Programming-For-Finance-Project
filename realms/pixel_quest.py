@@ -1,111 +1,89 @@
-# pixel_quest.py
-
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np
 import plotly.express as px
-from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report
-import base64
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+import time
 
-# -------------------------------
-# 🎮 Pixel Quest Theme Styling
-# -------------------------------
-
-PIXEL_CSS = """
-<style>
-body {
-    background-color: #fef6e4;
-    color: #001858;
-    font-family: 'Press Start 2P', cursive;
-}
-h1, h2, h3 {
-    color: #ff6f61;
-    text-shadow: 1px 1px 0 #ffbf69;
-}
-.stButton>button {
-    background-color: #ff6f61;
-    color: white;
-    border-radius: 8px;
-    border: none;
-    padding: 10px;
-    font-size: 12px;
-}
-.stSelectbox, .stFileUploader, .stNumberInput, .stTextInput {
-    background-color: #fff1e6;
-}
-</style>
-"""
-
-def set_pixel_background():
-    st.markdown(PIXEL_CSS, unsafe_allow_html=True)
-    pixel_gif = "https://media.giphy.com/media/XbZ5IYazY9c5e/giphy.gif"
-    st.image(pixel_gif, use_column_width=True)
-
-# -------------------------------
-# 🚀 Main App Logic
-# -------------------------------
-
-def run_pixel_quest_theme():
-    set_pixel_background()
+def show_pixel_quest():
+    st.markdown(
+        """
+        <style>
+        .main {
+            background-color: #1f1f2e;
+            color: #f2f2f2;
+            font-family: 'Press Start 2P', cursive;
+        }
+        </style>
+        <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.title("🎮 Pixel Quest Realm")
-    st.subheader("🌟 Decision Tree Classification on Financial Data")
+    st.markdown("#### Retro Gaming Meets Financial Clustering")
 
-    # File upload
-    uploaded_file = st.file_uploader("Upload your Kragle CSV financial dataset", type=["csv"])
-    
+    st.markdown(
+        "Step into a pixelated world of financial patterns! This theme leverages **K-Means Clustering** "
+        "to discover hidden groupings in financial data — all styled in classic 8-bit arcade vibes."
+    )
+
+    st.image("media/images/pixel_banner.png", use_column_width=True)
+
+    st.markdown("### 📁 Upload Financial Data")
+    uploaded_file = st.file_uploader("Upload a Kragle financial dataset (CSV)", type=["csv"])
+
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
-        st.success("✅ Dataset loaded successfully!")
+        st.success("File uploaded successfully!")
         st.dataframe(df.head())
 
-        # Target selection
-        target = st.selectbox("🎯 Select target column for classification", df.columns)
+        st.markdown("### 🎯 Select Features for Clustering")
+        numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
 
-        # Feature selection
-        features = st.multiselect("🧠 Select feature columns", [col for col in df.columns if col != target])
+        if len(numeric_cols) < 2:
+            st.error("Need at least 2 numeric columns for clustering.")
+            return
 
-        if features and target:
-            # Split data
-            X = df[features]
-            y = df[target]
+        x_col = st.selectbox("X-axis Feature", options=numeric_cols)
+        y_col = st.selectbox("Y-axis Feature", options=[col for col in numeric_cols if col != x_col])
 
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        num_clusters = st.slider("Select Number of Clusters", min_value=2, max_value=10, value=3)
 
-            # Model training
-            clf = DecisionTreeClassifier(max_depth=5, random_state=0)
-            clf.fit(X_train, y_train)
+        if st.button("🧠 Run K-Means Clustering"):
+            with st.spinner("Clustering coins, finding patterns..."):
+                time.sleep(2)
 
-            y_pred = clf.predict(X_test)
+                X = df[[x_col, y_col]].dropna()
+                scaler = StandardScaler()
+                X_scaled = scaler.fit_transform(X)
 
-            # Accuracy
-            accuracy = accuracy_score(y_test, y_pred)
-            st.metric("📊 Accuracy", f"{accuracy * 100:.2f}%")
+                kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+                labels = kmeans.fit_predict(X_scaled)
 
-            # Classification Report
-            st.text("📝 Classification Report")
-            st.code(classification_report(y_test, y_pred))
+                X["Cluster"] = labels
+                df["Cluster"] = labels
 
-            # Plot tree
-            st.subheader("🌲 Visualized Decision Tree")
-            fig, ax = plt.subplots(figsize=(12, 6))
-            plot_tree(clf, feature_names=features, class_names=clf.classes_.astype(str), filled=True, ax=ax)
-            st.pyplot(fig)
+                fig = px.scatter(
+                    X,
+                    x=x_col,
+                    y=y_col,
+                    color=X["Cluster"].astype(str),
+                    title="🎯 Pixel Quest Clusters",
+                    template="plotly_dark",
+                    color_discrete_sequence=px.colors.qualitative.Pastel
+                )
+                st.plotly_chart(fig, use_container_width=True)
 
-            # Feature importance
-            st.subheader("🔥 Feature Importance")
-            importance_df = pd.DataFrame({
-                "Feature": features,
-                "Importance": clf.feature_importances_
-            }).sort_values(by="Importance", ascending=False)
+                st.markdown("### 📊 Cluster Summary")
+                st.write(df.groupby("Cluster")[[x_col, y_col]].mean())
 
-            fig_imp = px.bar(importance_df, x="Feature", y="Importance", color="Importance",
-                             color_continuous_scale="sunset", title="Feature Importance")
-            st.plotly_chart(fig_imp, use_container_width=True)
+                st.balloons()
 
-        else:
-            st.warning("⚠️ Please select both target and features to continue.")
     else:
-        st.info("📂 Upload a CSV file to begin your pixelated adventure!")
+        st.warning("Please upload a CSV file to begin your quest!")
+
+    st.markdown("---")
+    st.markdown("🕹️ *Inspired by retro gaming aesthetics, powered by data science.*")
+
