@@ -52,7 +52,8 @@ def galactic_pulse_theme(data: pd.DataFrame):
 
     st.markdown('<h1 class="title">🚀 Galactic Pulse Realm</h1>', unsafe_allow_html=True)
     st.markdown('<h3 class="subtitle">Predicting Market Movement Using Logistic Regression</h3>', unsafe_allow_html=True)
-    st.image("static_files/gifs/space_neon.gif", width=350)
+    st.image("https://media.giphy.com/media/l0IykIC2XV0zJgkdO/giphy.gif", use_column_width=True)
+
 
     if data.empty:
         st.warning("No data loaded. Please upload a dataset or select a ticker with valid data.")
