@@ -3,7 +3,7 @@ from realms.pixel_quest import show_pixel_quest
 from realms.cyber_ice import cyber_ice_theme
 from realms.desert_mirage import desert_mirage_theme
 from realms.galactic_pulse import galactic_pulse_theme
-from realms.home_page import welcome_page_theme
+#from realms.home_page import welcome_page_theme
 
 # App Configurations
 st.set_page_config(
