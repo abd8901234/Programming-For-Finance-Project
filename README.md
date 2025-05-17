@@ -82,7 +82,7 @@ Try it now:
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/yourrepo.git
-   cd yourrepo
+   cd Programming-For-Finance_Project
 2. Install dependencies:
 
 pip install -r requirements.txt
