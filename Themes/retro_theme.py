@@ -83,7 +83,7 @@ def show_retro_theme():
             st.info("Try classifying: will the market boom or bust, retro style?")
 
         st.markdown("""
-        <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="200">
+        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzlhZmNhaGR0aGFpczMyeHVhZ2lrdm5rbXJzYjNnd2N1dG5sejBzMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gYWeVOiMmbg3kzCTq5/giphy.gif" width="200">
         <p>Neon data, analog logic!</p>
         """, unsafe_allow_html=True)
     else:
