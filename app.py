@@ -1,5 +1,5 @@
 import streamlit as st
-from realms.pixel_quest import pixel_quest_theme
+from realms.pixel_quest import show_pixel_quest
 from realms.cyber_ice import cyber_ice_theme
 from realms.desert_mirage import desert_mirage_theme
 from realms.galactic_pulse import galactic_pulse_theme
