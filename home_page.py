@@ -7,7 +7,8 @@ def show_home_page():
     # Project Banner / Title
     col1, col2 = st.columns([1, 4])
     with col1:
-        st.image("media/images/logo_finrealm.png", width=110)
+       st.image("https://i.imgur.com/UJNmN8T.png", width=220)
+
     with col2:
         st.markdown(
             "<h1 style='font-size: 50px; color: #33CCCC; font-family:Trebuchet MS;'>FinRealm 💸</h1>",
