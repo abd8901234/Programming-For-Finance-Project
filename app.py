@@ -21,7 +21,7 @@ st.sidebar.image("assets/main_logo.png",use_container_width=True)
 st.sidebar.title(f"🌌 {PROJECT_NAME}")
 
 pages = {
-    "Welcome": show_welcome,
+    "Home": show_welcome,
     "Wall Street Theme (Linear Regression)": show_wallstreet_theme,
     "Retro 80s Theme (Logistic Regression)": show_retro_theme,
     "Eco Theme (K-Means)": show_eco_theme,
