@@ -17,23 +17,35 @@ def load_kaggle_data():
             return None
     return None
 
+import streamlit as st
+import yfinance as yf
+import pandas as pd
+
 def fetch_yahoo_data():
     st.markdown("#### Or fetch real-time Yahoo Finance data")
     ticker = st.text_input("Enter stock ticker (e.g., AAPL, GOOGL, TSLA)", "AAPL")
     period = st.selectbox("Select period", ["1mo", "3mo", "6mo", "1y", "5y"], index=2)
-    if st.button("Fetch Data"):
+    fetch_btn = st.button("Fetch Data")
+    
+    # Use st.session_state to persist data
+    if fetch_btn:
         try:
             data = yf.download(ticker, period=period)
             if data.empty:
                 st.warning("No data found for this ticker/period.")
+                st.session_state['fetched_data'] = None
                 return None
             st.success(f"Data for {ticker} loaded!")
-            return data.reset_index()
+            st.session_state['fetched_data'] = data.reset_index()
+            return st.session_state['fetched_data']
         except Exception as e:
             st.error(f"Failed to fetch Yahoo data: {e}")
+            st.session_state['fetched_data'] = None
             return None
-    return None
-
+    elif 'fetched_data' in st.session_state and st.session_state['fetched_data'] is not None:
+        return st.session_state['fetched_data']
+    else:
+        return None
 # ----- THEMES: Custom CSS -----
 
 def wallstreet_theme_style():
