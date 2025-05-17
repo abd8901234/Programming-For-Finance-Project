@@ -1,51 +1,34 @@
 import streamlit as st
-from realms.desert_mirage import desert_mirage_theme
-from realms.galactic_pulse import galactic_pulse_theme
-from realms.cyber_ice import cyber_ice_theme
-from realms.pixel_quest import pixel_quest_theme
-from home_page import show_home_page
+from welcome import show_welcome
+from wallstreet_theme import show_wallstreet_theme
+from retro_theme import show_retro_theme
+from eco_theme import show_eco_theme
+from space_theme import show_space_theme
 
-# Set page config
 st.set_page_config(
-    page_title="FinRealm - Financial ML Realms",
+    page_title="Finance ML Multi-Theme",
     layout="wide",
-    page_icon="💸"
+    initial_sidebar_state="expanded",
 )
 
-# Sidebar - App Navigation
-st.sidebar.title("🔮 FinRealm Navigation")
-page = st.sidebar.selectbox("Choose a Realm", [
-    "🏠 Home",
-    "🏜 Desert Mirage (Linear Regression)",
-    "🚀 Galactic Pulse (Logistic Regression)",
-    "🧊 Cyber Ice (K-Means Clustering)",
-    "🎮 Pixel Quest (Decision Tree)"
-])
+st.sidebar.title("💹 Finance ML Multi-Theme App")
+st.sidebar.image("assets/logo.png", width=130, caption="Powered by Streamlit")
 
-# Load data via sidebar options
-st.sidebar.markdown("---")
-st.sidebar.subheader("📈 Load Financial Data")
-data = load_data()
+pages = {
+    "Welcome": show_welcome,
+    "Wall Street Theme (Linear Regression)": show_wallstreet_theme,
+    "Retro 80s Theme (Logistic Regression)": show_retro_theme,
+    "Eco Theme (K-Means)": show_eco_theme,
+    "Space Theme (Decision Tree)": show_space_theme,
+}
 
-# Display selected page
-if page == "🏠 Home":
-    show_home_page()
+choice = st.sidebar.radio("Navigate", list(pages.keys()))
 
-elif page == "🏜 Desert Mirage (Linear Regression)":
-    desert_mirage_theme(data)
+pages[choice]()
 
-elif page == "🚀 Galactic Pulse (Logistic Regression)":
-    galactic_pulse_theme(data)
-
-elif page == "🧊 Cyber Ice (K-Means Clustering)":
-    cyber_ice_theme(data)
-
-elif page == "🎮 Pixel Quest (Decision Tree)":
-    pixel_quest_theme(data)
-
-# Footer
-st.markdown("---")
-st.markdown(
-    "<p style='text-align: center; color: grey;'>© 2025 FinRealm Project | Built for Programming for Finance - Final Semester</p>",
-    unsafe_allow_html=True
-)
+st.markdown("""
+    <hr>
+    <center>
+        <small>Made with ❤️ by [Your Group Names] for Programming for Finance (AF3005), FAST-NUCES, Spring 2025.</small>
+    </center>
+    """, unsafe_allow_html=True)
