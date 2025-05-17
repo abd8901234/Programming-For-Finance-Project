@@ -14,14 +14,26 @@ def show_retro_theme():
         </p>
     """, unsafe_allow_html=True)
 
-    data = None
+    # Only allow one data source at a time, using session_state
     st.header("Step 1: Load Data (Kaggle or Yahoo Finance)", divider='rainbow')
-    with st.expander("Upload Kaggle CSV", expanded=True):
-        data = load_kaggle_data()
-    if not data:
-        with st.expander("Or Fetch Yahoo Finance Data"):
-            data = fetch_yahoo_data()
-    
+
+    # Option to upload file or fetch
+    upload = st.checkbox("Upload Kaggle CSV", value=True)
+    data = None
+
+    if upload:
+        file = st.file_uploader("Choose a CSV file", type="csv")
+        if file is not None:
+            data = load_kaggle_data()
+            st.session_state["retro_data"] = data
+    else:
+        data = fetch_yahoo_data()
+        if data is not None:
+            st.session_state["retro_data"] = data
+
+    # Use session_state as fallback (persistent across reruns)
+    data = st.session_state.get("retro_data", None)
+
     if data is not None:
         st.success("Data loaded! Let's get pixelated.")
         st.write(data.head(10))
@@ -60,3 +72,5 @@ def show_retro_theme():
         <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="200">
         <p>Neon data, analog logic!</p>
         """, unsafe_allow_html=True)
+    else:
+        st.info("Please upload a dataset or fetch Yahoo Finance data to proceed.")
