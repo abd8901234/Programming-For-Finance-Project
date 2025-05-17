@@ -23,7 +23,7 @@ def show_welcome():
 
     st.write("#### Meet the Developers")
     st.markdown("""
-   - [Abdullah Nawaz] — Wall Street Theme  
+   -  — Wall Street Theme [Abdullah Nawaz] 
    - [Mohsin Ali] — Retro 80s Theme    
     - [Hamza Abbasi]  — Eco Theme        
    - [Combined] — Space Theme        
