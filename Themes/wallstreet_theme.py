@@ -52,6 +52,6 @@ def show_wallstreet_theme():
             st.info(f"Regression Equation: {y_col} = {model.coef_[0]:.2f} × {x_col} + {model.intercept_:.2f}")
 
         st.markdown("""
-        <img src='https://media.giphy.com/media/3o6gE5aYpVJJ7n12re/giphy.gif' width='220'>
+        <img src='https://media.giphy.com/media/3o6gE5aYpVJJ7n12re/giphy.gif' use_column_width=True>
         <p>Wall Street never sleeps—neither does your data!</p>
         """, unsafe_allow_html=True)
