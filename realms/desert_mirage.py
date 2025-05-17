@@ -1,4 +1,4 @@
-"""
+ """
 Desert Mirage Theme Module
 Linear Regression on Financial Closing Prices with Interactive Visualization
 Author: YourName
@@ -46,7 +46,8 @@ def desert_mirage_theme(data: pd.DataFrame):
 
     st.markdown('<h1 class="title">🏜 Desert Mirage Realm</h1>', unsafe_allow_html=True)
     st.markdown('<h3 class="subtitle">Predicting Closing Prices Using Linear Regression</h3>', unsafe_allow_html=True)
-    st.image("static_files/gifs/desert_sands.gif", width=350)
+    st.image("https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif", use_column_width=True)
+
 
     if data.empty:
         st.warning("No data loaded. Please upload a dataset or select a ticker with valid data.")
