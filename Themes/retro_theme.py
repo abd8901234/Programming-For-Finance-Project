@@ -15,7 +15,6 @@ def show_retro_theme():
     """, unsafe_allow_html=True)
 
     st.header("Step 1: Load Data (Kaggle or Yahoo Finance)", divider='rainbow')
-
     data_source = st.radio(
         "Select data source",
         ["Upload Kaggle CSV", "Fetch from Yahoo Finance"],
@@ -23,7 +22,6 @@ def show_retro_theme():
     )
 
     data = None
-
     if data_source == "Upload Kaggle CSV":
         file = st.file_uploader("Choose a CSV file", type="csv")
         if file is not None:
@@ -47,32 +45,34 @@ def show_retro_theme():
             return
         x_col = st.selectbox("Select Feature (X)", cols, key="retro_x")
         y_col = st.selectbox("Select Target (Y)", [col for col in cols if col != x_col], key="retro_y")
-
         y = data[y_col].values
         unique_vals = np.unique(y)
 
-        # Show checkbox if Y is not binary
+        # If not binary, offer to binarize with median split
         binarize = False
         if len(unique_vals) != 2:
-            st.warning("Selected Y column is not binary. You can binarize it to run logistic regression.")
+            st.info(f"'{y_col}' is not binary. To use it for classification, you can binarize it using the median value.")
             binarize = st.checkbox(f"Binarize '{y_col}' (1 if above median, 0 otherwise)")
             if binarize:
                 median_val = np.median(y)
-                y = (y > median_val).astype(int)
-                st.info(f"Binarized: 1 if '{y_col}' > {median_val:.2f}, 0 otherwise.")
+                y_bin = (y > median_val).astype(int)
+                st.success(f"Binarized '{y_col}': 1 if value > {median_val:.2f}, 0 otherwise.")
             else:
-                st.stop()  # Stop here until the user bins the column
+                st.warning("Please binarize the column or select a naturally binary target for logistic regression.")
+                return
+        else:
+            y_bin = y
 
         if st.button("Run Logistic Regression 🎯", key="retro_logreg"):
             X = data[[x_col]].values
-            if len(np.unique(y)) != 2:
-                st.error("Target (Y) must be binary. Please select binarize option above.")
+            if len(np.unique(y_bin)) != 2:
+                st.error("Target (Y) must be binary. Please binarize or select a suitable column.")
                 return
-            clf = LogisticRegression().fit(X, y)
+            clf = LogisticRegression().fit(X, y_bin)
             y_pred = clf.predict(X)
-            acc = clf.score(X, y)
+            acc = clf.score(X, y_bin)
             fig, ax = plt.subplots(figsize=(7,5))
-            ax.scatter(X, y, color="#ff00cc", label="Actual", alpha=0.7)
+            ax.scatter(X, y_bin, color="#ff00cc", label="Actual", alpha=0.7)
             ax.scatter(X, y_pred, color="#00ffe7", marker="x", label="Predicted", alpha=0.6)
             ax.set_xlabel(x_col)
             ax.set_ylabel(f"{y_col} (binary)")
@@ -83,7 +83,7 @@ def show_retro_theme():
             st.info("Try classifying: will the market boom or bust, retro style?")
 
         st.markdown("""
-        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzlhZmNhaGR0aGFpczMyeHVhZ2lrdm5rbXJzYjNnd2N1dG5sejBzMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gYWeVOiMmbg3kzCTq5/giphy.gif" width="200">
+        <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="200">
         <p>Neon data, analog logic!</p>
         """, unsafe_allow_html=True)
     else:
