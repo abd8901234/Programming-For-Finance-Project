@@ -12,7 +12,7 @@ def show_welcome():
 
     st.info("**Welcome! Explore finance ML with four original, interactive themes. Each offers unique visuals, features, and a dedicated ML model.**")
 
-    st.image("assets/main_banner.gif", caption="Unleash the power of financial data in four creative styles!", use_column_width=True)
+    st.image("assets/main_logo.png", caption="Unleash the power of financial data in four creative styles!", use_column_width=True)
 
     st.write("### 🏛️ Wall Street | 🕹️ Retro 80s | 🌳 Eco Nature | 🚀 Space")
     st.write("""
