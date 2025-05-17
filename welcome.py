@@ -7,7 +7,7 @@ def show_welcome():
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="big-font"><b> Finance Multiverse</b></div>', unsafe_allow_html=True)
+    st.markdown('<div class="big-font"><b>🌌 Finance Multiverse</b></div>', unsafe_allow_html=True)
     st.write("---")
 
     st.info("**Welcome! Explore finance ML with four original, interactive themes. Each offers unique visuals, features, and a dedicated ML model.**")
