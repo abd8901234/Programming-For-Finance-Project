@@ -1,9 +1,9 @@
 import streamlit as st
 from welcome import show_welcome
-from wallstreet_theme import show_wallstreet_theme
-from retro_theme import show_retro_theme
-from eco_theme import show_eco_theme
-from space_theme import show_space_theme
+from themes.wallstreet_theme import show_wallstreet_theme
+from themes.retro_theme import show_retro_theme
+from themes.eco_theme import show_eco_theme
+from themes.space_theme import show_space_theme
 
 st.set_page_config(
     page_title="Finance ML Multi-Theme",
