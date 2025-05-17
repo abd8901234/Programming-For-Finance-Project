@@ -30,13 +30,11 @@ def show_retro_theme():
             data = load_kaggle_data()
             if data is not None:
                 st.session_state["retro_data"] = data
-
-    else:  # Yahoo Finance
+    else:
         data = fetch_yahoo_data()
         if data is not None:
             st.session_state["retro_data"] = data
 
-    # Retrieve from session_state if available
     data = st.session_state.get("retro_data", None)
 
     if data is not None:
@@ -48,14 +46,27 @@ def show_retro_theme():
             st.error("Need at least two numeric columns for logistic regression.")
             return
         x_col = st.selectbox("Select Feature (X)", cols, key="retro_x")
-        y_col = st.selectbox("Select Binary Target (Y)", [col for col in cols if col != x_col], key="retro_y")
+        y_col = st.selectbox("Select Target (Y)", [col for col in cols if col != x_col], key="retro_y")
 
-        st.caption("⚠️ Your Y column should be binary (0/1, or 2 unique values only).")
+        y = data[y_col].values
+        unique_vals = np.unique(y)
+
+        # Show checkbox if Y is not binary
+        binarize = False
+        if len(unique_vals) != 2:
+            st.warning("Selected Y column is not binary. You can binarize it to run logistic regression.")
+            binarize = st.checkbox(f"Binarize '{y_col}' (1 if above median, 0 otherwise)")
+            if binarize:
+                median_val = np.median(y)
+                y = (y > median_val).astype(int)
+                st.info(f"Binarized: 1 if '{y_col}' > {median_val:.2f}, 0 otherwise.")
+            else:
+                st.stop()  # Stop here until the user bins the column
+
         if st.button("Run Logistic Regression 🎯", key="retro_logreg"):
             X = data[[x_col]].values
-            y = data[y_col].values
             if len(np.unique(y)) != 2:
-                st.error("Target (Y) is not binary. Please upload/choose a binary column.")
+                st.error("Target (Y) must be binary. Please select binarize option above.")
                 return
             clf = LogisticRegression().fit(X, y)
             y_pred = clf.predict(X)
@@ -64,7 +75,7 @@ def show_retro_theme():
             ax.scatter(X, y, color="#ff00cc", label="Actual", alpha=0.7)
             ax.scatter(X, y_pred, color="#00ffe7", marker="x", label="Predicted", alpha=0.6)
             ax.set_xlabel(x_col)
-            ax.set_ylabel(y_col)
+            ax.set_ylabel(f"{y_col} (binary)")
             ax.set_title("Retro Logistic Regression", color="#00ffe7")
             ax.legend()
             st.pyplot(fig)
@@ -77,5 +88,3 @@ def show_retro_theme():
         """, unsafe_allow_html=True)
     else:
         st.info("Please upload a dataset or fetch Yahoo Finance data to proceed.")
-
-
