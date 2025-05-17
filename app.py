@@ -3,7 +3,7 @@ from realms.pixel_quest import show_pixel_quest
 from realms.cyber_ice import cyber_ice_theme
 from realms.desert_mirage import desert_mirage_theme
 from realms.galactic_pulse import galactic_pulse_theme
-#from realms.home_page import welcome_page_theme
+from realms.home_page import show_home_page
 
 # App Configurations
 st.set_page_config(
@@ -32,16 +32,16 @@ with st.sidebar:
 
 # Main Area - Routing Views
 if selected_section == "🏠 Welcome":
-    show_welcome_page()
+    show_home_page()
 
 elif selected_section == "🏜️ Desert Mirage (Linear Regression)":
-    show_desert_mirage()
+    desert_mirage_theme()
 
 elif selected_section == "🪐 Galactic Pulse (Logistic Regression)":
-    show_galactic_pulse()
+    galactic_pulse_theme()
 
 elif selected_section == "❄️ Cyber Ice (K-Means Clustering)":
-    show_cyber_ice()
+    cyber_ice_theme()
 
 elif selected_section == "🕹️ Pixel Quest (Decision Tree)":
     show_pixel_quest()
