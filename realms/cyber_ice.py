@@ -50,7 +50,8 @@ def cyber_ice_theme(data: pd.DataFrame):
 
     st.markdown('<h1 class="title">❄️ Cyber Ice Realm</h1>', unsafe_allow_html=True)
     st.markdown('<h3 class="subtitle">Clustering Stock Returns with K-Means</h3>', unsafe_allow_html=True)
-    st.image("static_files/gifs/ice_pixel.gif", width=320)
+    st.image("https://media.giphy.com/media/26FPJytA8V3pQuqRO/giphy.gif", use_column_width=True)
+
 
     if data.empty:
         st.warning("No data loaded. Please upload a dataset or select a ticker with valid data.")
