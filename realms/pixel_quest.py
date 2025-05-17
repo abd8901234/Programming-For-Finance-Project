@@ -29,7 +29,8 @@ def show_pixel_quest():
         "to discover hidden groupings in financial data — all styled in classic 8-bit arcade vibes."
     )
 
-    st.image("media/images/pixel_banner.png", use_column_width=True)
+    st.image("https://i.imgur.com/8G4flwK.gif", use_column_width=True)
+
 
     st.markdown("### 📁 Upload Financial Data")
     uploaded_file = st.file_uploader("Upload a Kragle financial dataset (CSV)", type=["csv"])
