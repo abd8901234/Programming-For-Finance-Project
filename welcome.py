@@ -23,10 +23,10 @@ def show_welcome():
 
     st.write("#### Meet the Developers")
     st.markdown("""
-    - [Abdullah Nawaz] — Wall Street Theme
-    - [Mohsin Ali] — Retro 80s Theme
-    - [Hamza Abbasi] — Eco Theme
-    - [Combined] — Space Theme
+    — Wall Street Theme - [Abdullah Nawaz] 
+    — Retro 80s Theme   - [Mohsin Ali] 
+    — Eco Theme         - [Hamza Abbasi] 
+    — Space Theme       - [Combined] 
     """)
 
     st.success("Start exploring! Choose a theme from the sidebar.")
