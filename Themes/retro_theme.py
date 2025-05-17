@@ -72,12 +72,18 @@ def show_retro_theme():
             y_pred = clf.predict(X)
             acc = clf.score(X, y_bin)
             fig, ax = plt.subplots(figsize=(7,5))
+            fig.patch.set_facecolor("black")      # Black figure background
+            ax.set_facecolor("black")             # Black plot area
+
             ax.scatter(X, y_bin, color="#ff00cc", label="Actual", alpha=0.7)
             ax.scatter(X, y_pred, color="#00ffe7", marker="x", label="Predicted", alpha=0.6)
-            ax.set_xlabel(x_col)
-            ax.set_ylabel(f"{y_col} (binary)")
+            ax.set_xlabel(x_col, color="#00ffe7")
+            ax.set_ylabel(f"{y_col} (binary)", color="#00ffe7")
             ax.set_title("Retro Logistic Regression", color="#00ffe7")
-            ax.legend()
+            ax.tick_params(colors='#00ffe7')
+            legend = ax.legend(facecolor="black", edgecolor="white", labelcolor="#00ffe7")
+            for text in legend.get_texts():
+                text.set_color("#00ffe7")
             st.pyplot(fig)
             st.success(f"Accuracy: {acc:.3f}")
             st.info("Try classifying: will the market boom or bust, retro style?")
