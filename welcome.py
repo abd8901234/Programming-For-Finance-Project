@@ -3,7 +3,7 @@ import streamlit as st
 def show_welcome():
     st.markdown("""
     <style>
-    .big-font {font-size:30px !important;}
+    .big-font {font-size:60px !important;}
     </style>
     """, unsafe_allow_html=True)
 
