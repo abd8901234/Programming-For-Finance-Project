@@ -17,7 +17,7 @@ st.set_page_config(
 # Use online logo (or assets/logo.png if local)
 LOGO_URL = "https://cdn-icons-png.flaticon.com/512/2230/2230957.png"
 
-st.sidebar.image(LOGO_URL, width=110, caption=PROJECT_NAME)
+st.sidebar.image("assets/main_logo.png", width=110, caption=PROJECT_NAME)
 st.sidebar.title(f"🌌 {PROJECT_NAME}")
 
 pages = {
