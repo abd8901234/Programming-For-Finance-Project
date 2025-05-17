@@ -1,9 +1,9 @@
 import streamlit as st
-from realms.pixel_quest import show_pixel_quest
+from realms.pixel_quest import pixel_quest_theme
 from realms.cyber_ice import cyber_ice_theme
 from realms.desert_mirage import desert_mirage_theme
-from realms.galactic_pulse import show_galactic_pulse
-from realms.home_page import show_welcome_page
+from realms.galactic_pulse import galactic_pulse_theme
+from realms.home_page import welcome_page_theme
 
 # App Configurations
 st.set_page_config(
