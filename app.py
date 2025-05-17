@@ -1,9 +1,9 @@
 import streamlit as st
-from modules.pixel_quest import show_pixel_quest
-from modules.cyber_ice import show_cyber_ice
-from modules.desert_mirage import show_desert_mirage
-from modules.galactic_pulse import show_galactic_pulse
-from modules.home_page import show_welcome_page
+from realms.pixel_quest import show_pixel_quest
+from mrealms.cyber_ice import show_cyber_ice
+from realms.desert_mirage import show_desert_mirage
+from realms.galactic_pulse import show_galactic_pulse
+from realms.home_page import show_welcome_page
 
 # App Configurations
 st.set_page_config(
