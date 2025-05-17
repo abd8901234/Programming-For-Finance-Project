@@ -76,6 +76,12 @@ Try it now:
 
 ---
 
+Video
+
+
+
+https://github.com/user-attachments/assets/72e3a6ac-c043-4a2c-82dc-b5bd8978fb8b
+
 
 ## 🚀 How to Run Locally
 
