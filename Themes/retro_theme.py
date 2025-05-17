@@ -14,24 +14,29 @@ def show_retro_theme():
         </p>
     """, unsafe_allow_html=True)
 
-    # Only allow one data source at a time, using session_state
     st.header("Step 1: Load Data (Kaggle or Yahoo Finance)", divider='rainbow')
 
-    # Option to upload file or fetch
-    upload = st.checkbox("Upload Kaggle CSV", value=True)
+    data_source = st.radio(
+        "Select data source",
+        ["Upload Kaggle CSV", "Fetch from Yahoo Finance"],
+        index=0
+    )
+
     data = None
 
-    if upload:
+    if data_source == "Upload Kaggle CSV":
         file = st.file_uploader("Choose a CSV file", type="csv")
         if file is not None:
             data = load_kaggle_data()
-            st.session_state["retro_data"] = data
-    else:
+            if data is not None:
+                st.session_state["retro_data"] = data
+
+    else:  # Yahoo Finance
         data = fetch_yahoo_data()
         if data is not None:
             st.session_state["retro_data"] = data
 
-    # Use session_state as fallback (persistent across reruns)
+    # Retrieve from session_state if available
     data = st.session_state.get("retro_data", None)
 
     if data is not None:
@@ -45,7 +50,6 @@ def show_retro_theme():
         x_col = st.selectbox("Select Feature (X)", cols, key="retro_x")
         y_col = st.selectbox("Select Binary Target (Y)", [col for col in cols if col != x_col], key="retro_y")
 
-        # Encourage the user to upload binary data
         st.caption("⚠️ Your Y column should be binary (0/1, or 2 unique values only).")
         if st.button("Run Logistic Regression 🎯", key="retro_logreg"):
             X = data[[x_col]].values
@@ -56,7 +60,6 @@ def show_retro_theme():
             clf = LogisticRegression().fit(X, y)
             y_pred = clf.predict(X)
             acc = clf.score(X, y)
-            # Visualize
             fig, ax = plt.subplots(figsize=(7,5))
             ax.scatter(X, y, color="#ff00cc", label="Actual", alpha=0.7)
             ax.scatter(X, y_pred, color="#00ffe7", marker="x", label="Predicted", alpha=0.6)
@@ -74,3 +77,5 @@ def show_retro_theme():
         """, unsafe_allow_html=True)
     else:
         st.info("Please upload a dataset or fetch Yahoo Finance data to proceed.")
+
+
