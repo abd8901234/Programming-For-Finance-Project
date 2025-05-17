@@ -1,9 +1,9 @@
 import streamlit as st
 from welcome import show_welcome
-from themes.wallstreet_theme import show_wallstreet_theme
-from themes.retro_theme import show_retro_theme
-from themes.eco_theme import show_eco_theme
-from themes.space_theme import show_space_theme
+from Themes.wallstreet_theme import show_wallstreet_theme
+from Themes.retro_theme import show_retro_theme
+from Themes.eco_theme import show_eco_theme
+from Themes.space_theme import show_space_theme
 
 # 🚀 New project name!
 PROJECT_NAME = "Finance Multiverse"
