@@ -1,5 +1,4 @@
 import streamlit as st
-from utils.data_loader import load_data
 from realms.desert_mirage import desert_mirage_theme
 from realms.galactic_pulse import galactic_pulse_theme
 from realms.cyber_ice import cyber_ice_theme
